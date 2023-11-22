@@ -37,12 +37,15 @@ class App extends Component {
             like: false,
             id: this.maxId++
         }
-        this.setState(({data}) => {
-            const newArr = [...data, newItem];
-            return {
-                data: newArr
-            }
-        });
+       
+        if (name.length > 1 & salary > 0) {
+            this.setState(({data}) => {
+                const newArr = [...data, newItem];
+                return {
+                    data: newArr
+                }
+            });
+        }              
     }
 
     onToggleProp = (id, prop) => {
