@@ -13,11 +13,12 @@ class App extends Component {
         super(props);
         this.state = {
             data: [
-                {name: 'Максим Рытик', salary: 45000, increase: true, like: true, id: 1},
-                {name: 'Бодров Кирилл', salary: 42000, increase: false, like: false, id: 2},
+                {name: 'Максим Рытик', salary: 45000, increase: false, like: true, id: 1},
+                {name: 'Бодров Кирилл', salary: 42000, increase: true, like: false, id: 2},
                 {name: 'Копотов Владимир', salary: 35000, increase: false, like: false, id: 3}
             ],
-            term: ''
+            term: '',
+            filter: 'all'
         }
         this.maxId = 4;
     }
@@ -96,18 +97,33 @@ class App extends Component {
         this.setState({term});
     }
 
+    filterPost = (items, filter) => {
+        switch (filter) {
+            case 'like': 
+                return items.filter(item => item.like);
+            case 'moreThan1000':
+                return items.filter(item => item.salary > 40000);
+            default:
+                return items
+        }
+    } 
+    
+    onFilterSelect = (filter) => {
+        this.setState({filter});
+    }
+
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         const employees = this.state.data.length;
         const increased = this.state.data.filter(item => item.increase).length;
-        const visibleData = this.searchEmp(data, term);
+        const visibleData = this.filterPost(this.searchEmp(data, term), filter);
         return (
             <div className="app">
                 <AppInfo employees={employees} increased={increased}/>
     
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-                    <AppFilter/>
+                    <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
                 </div>
                 
                 <EmployeesList 

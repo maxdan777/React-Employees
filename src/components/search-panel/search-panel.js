@@ -5,7 +5,7 @@ class SearchPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            term: ''
+            term: '', 
         }
     }
 
